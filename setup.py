@@ -14,7 +14,7 @@ CHANGES = open('CHANGES.md').read()
 
 setuptools.setup(
     name='Flask-GSA',
-    version='0.1.0',
+    version='0.1.1',
     description="A simple wrapper for the Google OAuth2 client library",
     url='https://github.com/michiganlabs/flask-gsa',
     author='Josh Friend',
