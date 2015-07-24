@@ -39,3 +39,5 @@ dist
 
 # Eclipse
 .settings
+
+tests/data

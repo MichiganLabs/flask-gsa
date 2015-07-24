@@ -77,12 +77,7 @@ $(ALL_FLAG): $(SOURCES)
 	touch $(ALL_FLAG)  # flag to indicate all setup steps were successful
 
 .PHONY: ci
-ci: check test tests
-
-.PHONY: watch
-watch: depends-dev .clean-test
-	@ rm -rf $(FAILED_FLAG)
-	$(SNIFFER)
+ci: check test
 
 # Development Installation #####################################################
 
@@ -104,7 +99,7 @@ depends: depends-ci depends-dev
 .PHONY: depends-ci
 depends-ci: env Makefile $(DEPENDS_CI_FLAG)
 $(DEPENDS_CI_FLAG): Makefile
-	$(PIP) install --upgrade flake8 pep257 coverage pytest pytest-cov
+	$(PIP) install --upgrade flake8 pep257 coverage pytest pytest-cov mock
 	@ touch $(DEPENDS_CI_FLAG)  # flag to indicate dependencies are installed
 
 .PHONY: depends-dev
@@ -157,8 +152,12 @@ pep257: depends-ci
 
 # Testing ######################################################################
 
+P12_CERT := tests/data/test.p12
+$(P12_CERT):
+	./genkey.sh
+
 .PHONY: test
-test: depends-ci
+test: depends-ci $(P12_CERT)
 	$(PYTEST) tests --cov $(PACKAGE) --cov-report term-missing --cov-report html
 
 test-all: test-py26 test-py27 test-py33 test-py34 test-py35

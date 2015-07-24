@@ -40,14 +40,14 @@ class GoogleServiceAccount(object):
             app.extensions = {}
         if 'gsa' not in app.extensions:
             app.extensions['gsa'] = {}
-        app.extensions['gsa'][app] = state
+        app.extensions['gsa'][self] = state
 
     def _get_state(self):
         """Gets the state for the application"""
         assert 'gsa' in current_app.extensions, \
             'The GoogleServiceAccount extension was not registered to the ' \
             'current application. Please make sure to call init_app() first.'
-        return current_app.extensions['gsa'][current_app]
+        return current_app.extensions['gsa'][self]
 
     def generate_credentials(self, scope):
         """Generate an OAUTH2 credentials object for the requested scope(s)
