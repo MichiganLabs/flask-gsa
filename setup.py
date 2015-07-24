@@ -23,7 +23,7 @@ setuptools.setup(
     long_description=(README + '\n' + CHANGES),
     license='MIT',
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 3 - Alpha',
         'Natural Language :: English',
         'Operating System :: OS Independent',
         'Framework :: Flask',
