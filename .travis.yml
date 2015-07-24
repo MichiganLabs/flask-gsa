@@ -1,0 +1,31 @@
+sudo: false
+
+language: python
+python:
+  - 2.6
+  - 2.7
+  - 3.3
+  - 3.4
+  - 3.5.0b3
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+
+install:
+  - pip install coveralls
+
+before_script:
+  - make env
+  - make depends-ci
+
+script:
+  - make ci
+
+after_success:
+  - coveralls
+
+notifications:
+  email:
+    on_success: never
+    on_failure: change

@@ -1,0 +1,4 @@
+include *.rst *.txt *.md
+recursive-include *.rst *.txt *.md
+graft */files
+graft */*/files
