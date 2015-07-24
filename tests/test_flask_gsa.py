@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-import sys
 import base64
 import json
 
@@ -12,21 +11,13 @@ import pytest
 from mock import Mock
 
 from tests.conftest import app as make_app
-
-
-PYTHON3 = sys.version_info[0] == 3
-if PYTHON3:
-    text_type = str
-else:
-    text_type = unicode
+from tests.compat import text_type
 
 
 def base64url_decode(s):
     rem = len(s) % 4
     if rem > 0:
         s += '=' * (4 - rem)
-    # if isinstance(s, text_type):
-    #     s = s.encode('utf-8')
     s = base64.b64decode(s)
     return text_type(s.decode('utf-8'))
 
