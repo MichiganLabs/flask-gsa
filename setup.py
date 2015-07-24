@@ -19,7 +19,7 @@ setuptools.setup(
     url='https://github.com/michiganlabs/flask-gsa',
     author='Josh Friend',
     author_email='info@michiganlabs.com',
-    py_modules=['flask_gsa'],
+    py_modules=setuptools.find_packages(exclude=['tests']),
     long_description=(README + '\n' + CHANGES),
     license='MIT',
     classifiers=[
