@@ -55,7 +55,6 @@ PYTHON := $(BIN)/python
 PIP := $(BIN)/pip
 EASY_INSTALL := $(BIN)/easy_install
 RST2HTML := $(PYTHON) $(BIN)/rst2html.py
-PDOC := $(PYTHON) $(BIN)/pdoc
 FLAKE8 := $(BIN)/flake8
 PEP257 := $(BIN)/pep257
 PYLINT := $(BIN)/pylint
@@ -105,7 +104,7 @@ $(DEPENDS_CI_FLAG): Makefile
 .PHONY: depends-dev
 depends-dev: env Makefile $(DEPENDS_DEV_FLAG)
 $(DEPENDS_DEV_FLAG): Makefile
-	$(PIP) install --upgrade pip pygments docutils pdoc wheel readme
+	$(PIP) install --upgrade pip pygments docutils wheel readme
 	@ touch $(DEPENDS_DEV_FLAG)  # flag to indicate dependencies are installed
 
 # Documentation ################################################################
@@ -157,10 +156,10 @@ $(P12_CERT):
 	./genkey.sh
 
 .PHONY: test
-test: depends-ci $(P12_CERT)
+test: $(P12_CERT) depends-ci
 	$(PYTEST) tests --cov $(PACKAGE) --cov-report term-missing --cov-report html
 
-test-all: test-py26 test-py27 test-py33 test-py34 test-py35
+test-all: test-py26 test-py27 test-py33 test-py34
 test-py26:
 	PYTHON_MAJOR=2 PYTHON_MINOR=6 $(MAKE) test
 test-py27:
@@ -169,8 +168,6 @@ test-py33:
 	PYTHON_MAJOR=3 PYTHON_MINOR=3 $(MAKE) test
 test-py34:
 	PYTHON_MAJOR=3 PYTHON_MINOR=4 $(MAKE) test
-test-py35:
-	PYTHON_MAJOR=3 PYTHON_MINOR=5 $(MAKE) test
 
 .PHONY: htmlcov
 htmlcov:
@@ -184,7 +181,7 @@ clean: .clean-dist .clean-test .clean-doc .clean-build
 
 .PHONY: clean-env
 clean-env: clean
-	rm -rf $(ENV)
+	rm -rf env/
 
 .PHONY: clean-all
 clean-all: clean clean-env

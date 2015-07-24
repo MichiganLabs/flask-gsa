@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 
+import sys
 import base64
 import json
 
@@ -13,18 +14,28 @@ from mock import Mock
 from tests.conftest import app as make_app
 
 
+PYTHON3 = sys.version_info[0] == 3
+if PYTHON3:
+    text_type = str
+else:
+    text_type = unicode
+
+
 def base64url_decode(s):
     rem = len(s) % 4
     if rem > 0:
-        s += b'=' * (4 - rem)
-    return base64.b64decode(s)
+        s += '=' * (4 - rem)
+    # if isinstance(s, text_type):
+    #     s = s.encode('utf-8')
+    s = base64.b64decode(s)
+    return text_type(s.decode('utf-8'))
 
 
 def test_get_state_unregistered_app():
     """Verify that error is raised when extension is used without registering
     an app with init_app."""
     gsa = GoogleServiceAccount('TEST')
-    app = Flask('test')
+    app = Flask(__name__)
 
     with pytest.raises(AssertionError):
         with app.app_context():
