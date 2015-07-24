@@ -5,6 +5,7 @@ import pytest
 
 from flask_gsa import GoogleServiceAccount
 
+
 @pytest.fixture
 def app():
     class Config(object):
